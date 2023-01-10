@@ -37,5 +37,6 @@ bool empty_list(List *list);
 int get_size(List *list);
 void clear(List *list);
 int indexof(List *list, Data x);
+bool set_data(List *list, int n, Data x);
 
 #endif /* LINKEDLIST_H */

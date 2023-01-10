@@ -124,6 +124,15 @@ bool delete_nth(List *list, int n) {
 	return true;
 }
 
+bool set_data(List *list, int n, Data x) {
+	Cell *cp = nth_cell(list->top, n);
+	if (cp == NULL) {
+		return false;
+	}
+	cp->item = x;
+	return true;
+}
+
 Data pop(List *list, bool *err) {
 	Data x = first(list, err);
 	if (*err) delete(list);
