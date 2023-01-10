@@ -1,5 +1,5 @@
 .DS_Store
 bingo
-*/bit
+bit/*/bit
 !*.c
 !*.h
