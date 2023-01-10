@@ -13,7 +13,7 @@ Data make_null_data(void) {
 }
 
 void print_data(Data data) {
-	printf("%d", data.i);
+	printf("%d ", data.i);
 }
 
 bool compare_data(Data data1, Data data2) {

@@ -11,6 +11,8 @@ int main(void) {
 		print_list(list);
 	}
 	printf("%d\n", indexof(list, make_data(15)));
+	set_data(list, 5, make_data(100));
+	print_list(list);
 	while (!empty_list(list)) {
 		delete_final(list);
 		print_list(list);

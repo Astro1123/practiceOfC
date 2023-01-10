@@ -144,7 +144,7 @@ int indexof(List *list, Data x) {
 	int res = -1;
 	bool err;
 	for (i = 0; i < get_size(list); i++) {
-		Data d = first(list, &err);
+		Data d = nth(list, i, &err);
 		if (compare_data(d, x)) {
 			res = i;
 			break;
