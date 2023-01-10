@@ -1,44 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-typedef struct {
-	int i;
-} Data;
-
-typedef struct cell {
-	Data item;
-	struct cell *next;
-} Cell;
-
-typedef struct {
-	Cell *top;
-} List;
-
-Data make_data(int i);
-Cell *make_cell(Data val, Cell *cp);
-List *make_list(void);
-void delete_cell(Cell *cp);
-void delete_list(List *list);
-Cell *final_cell(Cell *cp, Cell **before);
-Data final(List *list, bool *err);
-Cell *nth_cell(Cell *cp, int n);
-Data nth(List *list, int n, bool *err);
-bool insert_final(List *list, Data x);
-bool insert_nth(List *list, int n, Data x);
-bool push(List *list, Data x);
-bool delete_final(List *list);
-bool delete_nth(List *list, int n);
-Data pop(List *list, bool *err);
-bool empty_list(List *list);
-void print_list(List *list);
-int size(List *list);
-
-Data make_data(int i) {
-	Data d;
-	d.i = i;
-	return d;
-}
+#include "Data.h"
+#include "LinkedList.h"
 
 Cell *make_cell(Data val, Cell *cp) {
 	Cell *cell = (Cell *)malloc(sizeof(Cell));
@@ -52,7 +16,7 @@ Cell *make_cell(Data val, Cell *cp) {
 List *make_list(void) {
 	List *list = (List *)malloc(sizeof(List));
 	if (list != NULL) {
-		list->top = make_cell(make_data(0), NULL);
+		list->top = make_cell(make_null_data(), NULL);
 		if (list->top == NULL) {
 			free(list);
 			return NULL;
@@ -88,13 +52,13 @@ Data final(List *list, bool *err) {
 	Cell *cp = final_cell(list->top, &before);
 	if (cp == NULL) {
 		*err = false;
-		return make_data(0);
+		return make_null_data();
 	}
 	*err = true;
 	return cp->item;
 }
 
-int size(List *list) {
+int get_size(List *list) {
 	int i = 0;
 	if (empty_list(list)) {
 		return -1;
@@ -116,7 +80,7 @@ Data nth(List *list, int n, bool *err) {
 	Cell *cp = nth_cell(list->top, n);
 	if (cp == NULL) {
 		*err = false;
-		return make_data(0);
+		return make_null_data();
 	}
 	*err = true;
 	return cp->item;
@@ -161,9 +125,23 @@ bool delete_nth(List *list, int n) {
 }
 
 Data pop(List *list, bool *err) {
-	Data x = nth(list, 0, err);
-	if (*err) delete_nth(list, 0);
+	Data x = first(list, err);
+	if (*err) delete(list);
 	return x;
+}
+
+int indexof(List *list, Data x) {
+	int i;
+	int res = -1;
+	bool err;
+	for (i = 0; i < get_size(list); i++) {
+		Data d = first(list, &err);
+		if (compare_data(d, x)) {
+			res = i;
+			break;
+		}
+	}
+	return res;
 }
 
 bool empty_list(List *list) {
@@ -173,21 +151,12 @@ bool empty_list(List *list) {
 void print_list(List *list) {
 	printf("( ");
 	for (Cell *cp = list->top->next; cp != NULL; cp = cp->next)
-		printf("%d ", cp->item.i);
+		print_data(cp->item);
 	printf(")\n");
 }
 
-int main(void) {
-	List *list = make_list();
-	bool err;
-	for (int i = 0; i < 8; i++) {
-		push(list, make_data(i + 10));
-		print_list(list);
-	}
+void clear(List *list) {
 	while (!empty_list(list)) {
 		delete_final(list);
-		print_list(list);
 	}
-	delete_list(list);
-	return 0;
 }
