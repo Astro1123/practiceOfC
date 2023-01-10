@@ -2,5 +2,7 @@
 bingo/*/*
 StandardFunc/*/*
 bit
+LinkedList/*
 !*.c
 !*.h
+!Makefile
