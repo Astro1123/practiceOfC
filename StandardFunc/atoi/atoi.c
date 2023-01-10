@@ -15,6 +15,26 @@ bool isNum(char c) {
 	return (c >= '0' && c <= '9');
 }
 
+int _strtoi(const char* str, char **endptr) {
+	const char *c;
+	int res = 0;
+	int sign = 1;
+	
+	if (!str) return 0;
+	c = str;
+	if (isSign(*c)) {
+		if (*c == '-') {
+			sign = -1;
+		}
+		c++;
+	}
+	for (; isNum(*c); c++) {
+		res = res * 10 + (*c - '0');
+	}
+	*endptr = (char *)c;
+	return res * sign;
+}
+
 int _atoi(const char* str) {
 	const char *c;
 	int res = 0;
@@ -43,7 +63,7 @@ int _strlen(const char* str) {
 
 void print(char *str) {
 	char *s;
-	printf("%d\n", _atoi(str));
+	printf("%d\n", _strtoi(str, &s));
 	printf("##%s\n", s);
 }
 
