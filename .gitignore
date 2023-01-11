@@ -3,6 +3,7 @@ bingo/*/*
 StandardFunc/*/*
 bit
 LinkedList/*
+FunctionPointer/*
 !*.c
 !*.h
 !Makefile
