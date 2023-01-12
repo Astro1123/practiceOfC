@@ -2,31 +2,29 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "struct.h"
-#include "sort.h"
 #include "LinkedList.h"
 
-
 static void init(List *list);
-static Cell *make_cell(sortMethod val, Cell *cp);
+static Cell *make_cell(char* val, Cell *cp);
 static void delete_cell(Cell *cp);
 static void delete_list(List *list);
 static Cell *final_cell(Cell *cp, Cell **before);
-static sortMethod final(List *list, bool *err);
+static char* final(List *list, bool *err);
 static Cell *nth_cell(Cell *cp, int n);
-static sortMethod nth(List *list, int n);
-static sortMethod _nth(List *list, int n, bool *err);
-static bool insert_final(List *list, sortMethod x);
-static bool insert_nth(List *list, int n, sortMethod x);
-static bool push(List *list, sortMethod x);
+static char* nth(List *list, int n);
+static char* _nth(List *list, int n, bool *err);
+static bool insert_final(List *list, char* x);
+static bool insert_nth(List *list, int n, char* x);
+static bool push(List *list, char* x);
 static bool delete_final(List *list);
 static bool delete_nth(List *list, int n);
-static sortMethod pop(List *list);
-static sortMethod _pop(List *list, bool *err);
+static char* pop(List *list);
+static char* _pop(List *list, bool *err);
 static bool empty_list(List *list);
 static int get_size(List *list);
 static void clear(List *list);
-static int indexof(List *list, sortMethod x);
-static bool set_data(List *list, int n, sortMethod x);
+static int indexof(List *list, char* x);
+static bool set_data(List *list, int n, char* x);
 
 
 List *make_list(void) {
@@ -65,7 +63,7 @@ static void init(List *list) {
 	list->indexOf = indexof;
 }
 
-static Cell *make_cell(sortMethod val, Cell *cp) {
+static Cell *make_cell(char* val, Cell *cp) {
 	Cell *cell = (Cell *)malloc(sizeof(Cell));
 	if (cell != NULL) {
 		cell->item = val;
@@ -96,7 +94,7 @@ static Cell *final_cell(Cell *cp, Cell **before) {
 	return cp;
 }
 
-static sortMethod final(List *list, bool *err) {
+static char* final(List *list, bool *err) {
 	Cell *before;
 	Cell *cp = final_cell(list->top, &before);
 	if (cp == NULL) {
@@ -125,7 +123,7 @@ static Cell *nth_cell(Cell *cp, int n) {
 	return cp;
 }
 
-static sortMethod nth(List *list, int n) {
+static char* nth(List *list, int n) {
 	Cell *cp = nth_cell(list->top, n);
 	if (cp == NULL) {
 		return make_null_data();
@@ -133,7 +131,7 @@ static sortMethod nth(List *list, int n) {
 	return cp->item;
 }
 
-static sortMethod _nth(List *list, int n, bool *err) {
+static char* _nth(List *list, int n, bool *err) {
 	Cell *cp = nth_cell(list->top, n);
 	if (cp == NULL) {
 		*err = false;
@@ -143,7 +141,7 @@ static sortMethod _nth(List *list, int n, bool *err) {
 	return cp->item;
 }
 
-static bool insert_final(List *list, sortMethod x) {
+static bool insert_final(List *list, char* x) {
 	Cell *before;
 	Cell *cp = final_cell(list->top, &before);
 	if (cp == NULL) return false;
@@ -151,14 +149,14 @@ static bool insert_final(List *list, sortMethod x) {
 	return true;
 }
 
-static bool insert_nth(List *list, int n, sortMethod x) {
+static bool insert_nth(List *list, int n, char* x) {
 	Cell *cp = nth_cell(list->top, n - 1);
 	if (cp == NULL) return false;
 	cp->next = make_cell(x, cp->next);
 	return true;
 }
 
-static bool push(List *list, sortMethod x) {
+static bool push(List *list, char* x) {
 	return insert_nth(list, 0, x);
 }
 
@@ -181,7 +179,7 @@ static bool delete_nth(List *list, int n) {
 	return true;
 }
 
-static bool set_data(List *list, int n, sortMethod x) {
+static bool set_data(List *list, int n, char* x) {
 	Cell *cp = nth_cell(list->top, n);
 	if (cp == NULL) {
 		return false;
@@ -190,24 +188,24 @@ static bool set_data(List *list, int n, sortMethod x) {
 	return true;
 }
 
-static sortMethod pop(List *list) {
+static char* pop(List *list) {
 	bool err;
-	sortMethod s = _pop(list, &err);
+	char* s = _pop(list, &err);
 	if (!err) return make_null_data();
 	return s;
 }
 
-static sortMethod _pop(List *list, bool *err) {
-	sortMethod x = _nth(list, 0, err);
+static char* _pop(List *list, bool *err) {
+	char* x = _nth(list, 0, err);
 	if (*err) list->delete(list, 0);
 	return x;
 }
 
-static int indexof(List *list, sortMethod x) {
+static int indexof(List *list, char* x) {
 	int i;
 	int res = -1;
 	for (i = 0; i < get_size(list); i++) {
-		sortMethod d = list->get(list, i);
+		char* d = list->get(list, i);
 		if (compare_data(d, x)) {
 			res = i;
 			break;

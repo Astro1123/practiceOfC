@@ -34,7 +34,6 @@ int main(void) {
 	int array[ARRAY_SIZE];
 	int i;
 	int method;
-	bool err;
 	int len;
 	int res;
 	OrderType order;
@@ -45,7 +44,7 @@ int main(void) {
 	srand((unsigned int)time(NULL));
 	
 	list = initMethod();
-	len = get_size(list);
+	len = list->size(list);
 	
 	snprintf(SelectContinueStr, STR_SIZE, "Select continue (Continue: %d, Quit: %d) : ", CONTINUE, QUIT);
 	
@@ -61,7 +60,7 @@ int main(void) {
 		printf("\n");
 		
 		method = input("Select method : ", 0, len);
-		sortmet = nth(list, method, &err);
+		sortmet = list->get(list, method);
 		printf("\n");
 		
 		printf("Order:\n");
@@ -86,10 +85,9 @@ int main(void) {
 
 void printName(List* list, int len) {
 	int i;
-	bool err;
 	sortMethod sortmet;
 	for (i = 0; i < len; i++) {
-		sortmet = nth(list, i, &err);
+		sortmet = list->get(list, i);
 		printf("\t%s (%d)\n", sortmet.name, i);
 	}
 }

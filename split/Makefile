@@ -1,5 +1,5 @@
 NAME			= main
-SRCS			= main.c LinkedList.c Data.c
+SRCS			= main.c split.c LinkedList.c input.c struct.c
 OBJS			= $(SRCS:.c=.o)
 CC				= gcc
 CFLAG		= 

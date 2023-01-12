@@ -4,6 +4,7 @@ StandardFunc/*/*
 bit
 LinkedList/*
 FunctionPointer/*
+split/*
 !*.c
 !*.h
 !Makefile

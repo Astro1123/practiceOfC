@@ -7,16 +7,16 @@ int main(void) {
 	List *list = make_list();
 	bool err;
 	for (int i = 0; i < 8; i++) {
-		push(list, make_data(i + 10));
+		list->push(list, make_data(i + 10));
 		print_list(list);
 	}
-	printf("%d\n", indexof(list, make_data(15)));
-	set_data(list, 5, make_data(100));
+	printf("%d\n", list->indexOf(list, make_data(15)));
+	list->set(list, 5, make_data(100));
 	print_list(list);
-	while (!empty_list(list)) {
-		delete_final(list);
+	while (!list->isEmpty(list)) {
+		list->delete(list, list->size(list) - 1);
 		print_list(list);
 	}
-	delete_list(list);
+	list->destroy(list);
 	return 0;
 }

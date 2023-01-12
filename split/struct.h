@@ -1,8 +1,10 @@
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
+#ifndef STRUCT_H
+#define STRUCT_H
+
+#include <stdbool.h>
 
 typedef struct cell {
-	Data item;
+	char* item;
 	struct cell *next;
 } Cell;
 
@@ -14,32 +16,33 @@ typedef struct list {
 	void (*destroy)(List*);
 	
 	/* データ追加 */
-	bool (*push)(List*, Data);
-	bool (*add)(List*, int, Data);
-	bool (*enqueue)(List*, Data);
+	bool (*push)(List*, char*);
+	bool (*add)(List*, int, char*);
+	bool (*enqueue)(List*, char*);
 	
 	/* データ変更 */
-	bool (*set)(List*, int, Data);
+	bool (*set)(List*, int, char*);
 	
 	/* データ削除 */
 	bool (*delete)(List*, int);
 	void (*clear)(List*);
 	
 	/* データ取得 */
-	Data (*get)(List*, int);
-	Data (*pop)(List*);
-	Data (*dequeue)(List*);
+	char* (*get)(List*, int);
+	char* (*pop)(List*);
+	char* (*dequeue)(List*);
 	
 	/* 情報取得 */
 	bool (*isEmpty)(List*);
 	int (*size)(List*);
 	
 	/* 検索 */
-	int (*indexOf)(List*, Data);
+	int (*indexOf)(List*, char*);
 	#undef List
 } List;
 
-List *make_list(void);
-void print_list(List *list);
+void print_data(char *s);
+char* make_null_data(void);
+int compare_data(char* s1, char* s2);
 
-#endif /* LINKEDLIST_H */
+#endif /* STRUCT_H */

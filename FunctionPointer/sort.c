@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <stdbool.h>
 #include "struct.h"
 #include "sort.h"
@@ -21,20 +22,18 @@ List* initMethod() {
 	List* list = make_list();
 	order = ASCENDING;
 	
-	add(list, makeSortMethod("Bubble Sort", BubbleSort));
-	add(list, makeSortMethod("Selection Sort", SelectionSort));
-	add(list, makeSortMethod("Insertion Sort", InsertionSort));
-	add(list, makeSortMethod("Quick Sort", QuickSort));
-	add(list, makeSortMethod("Merge Sort", MergeSort));
+	list->enqueue(list, makeSortMethod("Bubble Sort", BubbleSort));
+	list->enqueue(list, makeSortMethod("Selection Sort", SelectionSort));
+	list->enqueue(list, makeSortMethod("Insertion Sort", InsertionSort));
+	list->enqueue(list, makeSortMethod("Quick Sort", QuickSort));
+	list->enqueue(list, makeSortMethod("Merge Sort", MergeSort));
 	
 	return list;
 }
 
 static sortMethod makeSortMethod(const char* name, int (*func)(int* ,int)) {
-	static int cnt = 0;
 	sortMethod sort;
 	
-	sort.code = cnt++;
 	sort.name = name;
 	sort.func = func;
 	
@@ -46,21 +45,29 @@ void print_data(sortMethod data) {
 }
 
 void deleteMethod(List *list) {
-	delete_list(list);
+	list->delete(list, 0);
 }
 
 sortMethod make_null_data(void) {
 	sortMethod sort;
 	
-	sort.code = -1;
 	sort.name = NULL;
 	sort.func = NULL;
 	
 	return sort;
 }
 
+int isNull(sortMethod s) {
+	return compare_data(s, make_null_data());
+}
+
 int compare_data(sortMethod s1, sortMethod s2) {
-	return (s1.code == s2.code);
+	if (s1.name == NULL) {
+		return (s2.name == NULL);
+	} else if (s2.name == NULL) {
+		return false;
+	}
+	return (strcmp(s1.name, s2.name) == 0);
 }
 
 void orderSelect(OrderType o) {
