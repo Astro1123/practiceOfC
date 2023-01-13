@@ -2,7 +2,8 @@
 bingo/*/*
 StandardFunc/*/*
 bit
-LinkedList/*
+Control/*
+LinkedList/*/*
 FunctionPointer/*
 split/*
 !*.c

@@ -1,15 +1,20 @@
-#ifndef LINKEDLIST_H
-#define LINKEDLIST_H
+#ifndef INT_LINKED_LIST_H
+#define INT_LINKED_LIST_H
 
-typedef struct cell {
+#include <stdbool.h>
+#include "ListDefine.h"
+#define Data char
+
+typedef struct char_cell {
 	Data item;
-	struct cell *next;
-} Cell;
+	struct char_cell *next;
+} CharCell;
 
-typedef struct list {
-	Cell *top;
+typedef struct char_list {
+	CharCell *top;
 	
-	#define List struct list
+	#define List struct char_list
+	
 	/* リスト削除 */
 	void (*destroy)(List*);
 	
@@ -36,10 +41,19 @@ typedef struct list {
 	
 	/* 検索 */
 	int (*indexOf)(List*, Data);
+	
+	/* 表示、比較 */
+	void (*printList)(List*);
+	int (*compare)(Data, Data);
+	
+	/* 設定 */
+	void (*setPrint)(List*, void (*)(List*));
+	void (*setCompare)(List*, int (*)(Data, Data));
 	#undef List
-} List;
+} CharList;
 
-List *make_list(void);
-void print_list(List *list);
+#undef Data
 
-#endif /* LINKEDLIST_H */
+CharList* make_char_list(void);
+
+#endif /* INT_LINKED_LIST_H */
